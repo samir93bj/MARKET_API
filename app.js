@@ -1,17 +1,18 @@
-import express from "express";
-import morgan from "morgan";
-import helmet from "helmet";
+import Express from 'express'
+import helmet from 'helmet'
+import { errors } from './networks/error.js'
 
-import { config } from "./config/config.js";
-import { apiRouter } from "./routes/index.js";
+import { config } from './config/config.js'
+import { apiRouter } from './routes/index.js'
 
+const app = new Express()
 
-const app = new express();
+app.use(helmet())
 
-//app.use(morgan('tiny'));
-app.use(helmet());
-apiRouter(app);
+apiRouter(app)
 
-app.listen(config.port, ()=> {
-    console.log("Server listo en port: ", config.port);
-});
+app.use(errors)
+
+app.listen(config.port, () => {
+  console.log('Server listo en port: ', config.port)
+})

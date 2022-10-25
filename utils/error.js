@@ -1,9 +1,9 @@
-export function err (message, code) {
-    let e = new Error(message);
-    
-    if(code){
-        e.statusCode = code;
-    }
+export default function error (message, code) {
+  const e = new Error(message)
 
-    return e;
+  if (code) {
+    e.statusCode = code
+  }
+
+  return e
 }
