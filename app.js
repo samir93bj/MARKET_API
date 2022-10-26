@@ -9,6 +9,8 @@ const app = new Express()
 
 app.use(helmet())
 
+app.use(Express.json())
+
 apiRouter(app)
 
 app.use(errors)
