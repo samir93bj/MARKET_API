@@ -2,6 +2,7 @@ import express from 'express'
 import ProductService from '../service/producto.service.js'
 import { success } from '../networks/responses.js'
 import { validateDate } from '../schema/product.schema.js'
+import { isAdminRole } from '../middleware/auth.handler.js'
 
 const service = new ProductService('productos.json')
 const router = express.Router()
@@ -29,6 +30,7 @@ router.get('/:id',
   })
 
 router.post('/',
+  isAdminRole,
   validateDate,
   async (req, res, next) => {
     try {
@@ -42,6 +44,7 @@ router.post('/',
   })
 
 router.delete('/:id',
+  isAdminRole,
   async (req, res, next) => {
     try {
       const id = req.params.id
@@ -53,6 +56,7 @@ router.delete('/:id',
   })
 
 router.put('/:id',
+  isAdminRole,
   async (req, res, next) => {
     try {
       const id = req.params.id
