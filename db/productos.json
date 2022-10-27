@@ -1,1 +1,5 @@
-[{"id":2,"timestamp":"25/10/2022 21:07:49 PM","name":"Escuadra","description":"Escuadra jardin","code":"ESC1236","image":"https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-64.png","price":450.45,"stock":100},{"id":3,"timestamp":"25/10/2022 21:07:56 PM","name":"Escuadra","description":"Escuadra universitaria","code":"ESC1236","image":"https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-64.png","price":450.45,"stock":100}]
+[
+    {"id":2,"timestamp":"25/10/2022 21:07:49 PM","name":"Escuadra","description":"Escuadra jardin","code":"ESC1236","image":"https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-64.png","price":450.45,"stock":100},
+    {"id":3,"timestamp":"25/10/2022 21:07:56 PM","name":"Escuadra","description":"Escuadra universitaria","code":"ESC1236","image":"https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-64.png","price":450.45,"stock":100},
+    {"id":4,"timestamp":"25/10/2022 21:07:56 PM","name":"Escuadra","description":"Escuadra universitaria","code":"ESC1236","image":"https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-64.png","price":450.45,"stock":0}
+]

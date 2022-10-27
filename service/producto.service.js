@@ -102,6 +102,10 @@ class ProductService {
 
     return id
   }
+
+  async modifStock (id) {
+
+  }
 }
 
 export default ProductService
