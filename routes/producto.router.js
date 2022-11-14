@@ -1,10 +1,10 @@
 import express from 'express'
-import ProductService from '../service/producto.service.js'
 import { success } from '../networks/responses.js'
 import { validateDate } from '../schema/product.schema.js'
 import { isAdminRole } from '../middleware/auth.handler.js'
+import ProductService from '../service/producto.service.js'
 
-const service = new ProductService('productos.json')
+const service = new ProductService()
 const router = express.Router()
 
 router.get('/',
