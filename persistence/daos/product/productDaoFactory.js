@@ -1,6 +1,7 @@
 import { config } from '../../../config/config.js'
+import ProductMemoryDao from './productDaoLocalFile.js'
 import ProductDaoMongo from './productDaoMongo.js'
-import ProductDaoMaria from './productDatoMaria.js'
+import ProductDaoFirestore from './productDatoFirestore.js'
 
 const dataBaseContext = config.dataBase
 let dao
@@ -9,17 +10,16 @@ switch (dataBaseContext) {
   case 'mongoDB' :
     dao = new ProductDaoMongo()
     break
-  case 'mariaDB' :
-    dao = new ProductDaoMaria()
+  case 'firebase' :
+    dao = new ProductDaoFirestore()
+    break
+  case 'localStorage' :
+    dao = new ProductMemoryDao()
     break
 }
 
 class ProductDaoFactory {
   static instance = ProductDaoFactory
-
-  constructor () {
-    this.hola = ''
-  }
 
   getDao () {
     return dao
