@@ -1,4 +1,4 @@
-import ProductRepository from '../persistence/repository/product.repostory.js'
+import ProductRepository from '../persistence/repository/product.repository.js'
 const productRepository = new ProductRepository()
 
 const list = async () => {
