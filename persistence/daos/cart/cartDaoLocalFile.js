@@ -113,4 +113,4 @@ class CartDaoMemory {
   }
 }
 
-export default CartDaoMemory
+export { CartDaoMemory }

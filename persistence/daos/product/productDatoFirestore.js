@@ -4,4 +4,4 @@ class ProductDaoFirestore {
   }
 }
 
-export default ProductDaoFirestore
+export { ProductDaoFirestore }

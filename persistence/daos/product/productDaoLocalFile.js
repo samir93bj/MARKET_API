@@ -108,4 +108,4 @@ class ProductMemoryDao {
   }
 }
 
-export default ProductMemoryDao
+export { ProductMemoryDao }

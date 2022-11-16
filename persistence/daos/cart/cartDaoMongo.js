@@ -72,4 +72,4 @@ class CartDaoMongo {
   }
 }
 
-export default CartDaoMongo
+export { CartDaoMongo }

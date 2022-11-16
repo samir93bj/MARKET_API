@@ -2,4 +2,4 @@ class CartDaoFirebase {
 
 }
 
-export default CartDaoFirebase
+export { CartDaoFirebase }
