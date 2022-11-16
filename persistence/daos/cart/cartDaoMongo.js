@@ -1,18 +1,5 @@
-import Cart from '../../../db/models/cart.model.js'
+import Cart from '../../../db/Mongo/models/cart.model.js'
 import error from '../../../utils/error.js'
-import mongoose from 'mongoose'
-import connectionData from '../../../db/db.config.js'
-
-const connection = async () => {
-  try {
-    await mongoose.connect(connectionData.connection_mongoDB.uri)
-    console.log('Connect successfully')
-  } catch (err) {
-    console.log(err)
-    process.exit(1)
-  }
-}
-connection()
 
 class CartDaoMongo {
   constructor () {

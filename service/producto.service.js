@@ -1,5 +1,4 @@
 import { list, getById, save, update, deleteById } from '../business/product.service.js'
-import error from '../utils/error.js'
 
 class ProductService {
   async list () {
@@ -10,11 +9,6 @@ class ProductService {
 
   async getById (id) {
     const result = await getById(id)
-
-    if (result === null) {
-      throw error('Producto not found', 400)
-    }
-
     return result
   }
 
@@ -41,8 +35,7 @@ class ProductService {
   }
 
   async delete (id) {
-    const product = await getById(id)
-    await deleteById(product.id)
+    await deleteById(id)
 
     return id
   }

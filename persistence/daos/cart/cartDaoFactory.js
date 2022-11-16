@@ -1,4 +1,5 @@
 import { config } from '../../../config/config.js'
+import Connection from '../../../db/Mongo/connection.js'
 
 const dataBaseContext = config.dataBase
 let dao
@@ -8,6 +9,7 @@ switch (dataBaseContext) {
     // eslint-disable-next-line no-case-declarations
     const { CartDaoMongo } = await import('./cartDaoMongo.js')
     dao = new CartDaoMongo()
+    Connection()
     break
   case 'firebase' :
     // eslint-disable-next-line no-case-declarations

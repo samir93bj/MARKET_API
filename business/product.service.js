@@ -1,4 +1,5 @@
 import ProductRepository from '../persistence/repository/product.repository.js'
+import error from '../utils/error.js'
 const productRepository = new ProductRepository()
 
 const list = async () => {
@@ -8,6 +9,11 @@ const list = async () => {
 
 const getById = async (id) => {
   const product = await productRepository.getById(id)
+
+  if (!product) {
+    throw error('Product not found', 400)
+  }
+
   return product
 }
 
@@ -17,14 +23,15 @@ const save = async (data) => {
 }
 
 const update = async (id, data) => {
-  const productUp = await productRepository.update(id, data)
-  await getById(id)
+  await productRepository.update(id, data)
+  const productUpdated = await getById(id)
 
-  return productUp
+  return productUpdated
 }
 
 const deleteById = async (id) => {
-  await productRepository.delete(id)
+  const product = await getById(id)
+  await productRepository.delete(product.id)
 
   return id
 }
