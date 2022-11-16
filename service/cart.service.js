@@ -1,32 +1,17 @@
+import { save, list, addProduct, getById, deleteById, deleteProduct } from '../business/cart.service.js'
+import ProductService from './producto.service.js'
 import error from '../utils/error.js'
-import fs from 'fs'
-import moment from 'moment'
-import ProductService from '../service/producto.service.js'
-const productService = new ProductService('productos.json')
+
+const productService = new ProductService()
 
 class CartService {
-  constructor (nameFile) {
-    this.nameFile = nameFile
-  }
-
-  async readFile () {
-    const data = await fs.promises.readFile(`./db/${this.nameFile}`, 'utf-8')
-    return JSON.parse(data)
-  }
-
-  async writeFile (data) {
-    await fs.promises.writeFile(`./db/${this.nameFile}`, JSON.stringify(data))
-    return true
-  }
-
   async list () {
-    const carts = await this.readFile()
+    const carts = await list()
     return carts
   }
 
   async getById (id) {
-    const data = await this.readFile()
-    const cart = data.find(item => item.id === parseInt(id)) || null
+    const cart = getById(id)
 
     if (!cart) {
       throw error('Cart not exist', 400)
@@ -36,79 +21,38 @@ class CartService {
   }
 
   async save () {
-    const newCart = {}
-    const data = await this.readFile()
-
-    if (data.length === 0) {
-      newCart.id = 1
-    } else {
-      const lastCart = data[data.length - 1]
-      const id = lastCart.id + 1
-
-      newCart.id = id
-    }
-
-    newCart.timestamp = moment().format('DD/MM/YYYY HH:mm:ss A')
-    newCart.products = []
-
-    data.push(newCart)
-
-    await this.writeFile(data)
+    const newCart = await save()
 
     return newCart
   }
 
   async addProduct (id, data) {
-    const carts = await this.list()
     const cart = await this.getById(id)
 
     const idProducto = data.id
     const product = await productService.getById(idProducto)
 
     if (product.stock > 0) {
-      cart.products.push(product)
+      await addProduct(cart.id, product)
     } else {
       throw error('insufficient stock', 400)
     }
-
-    const index = carts.findIndex(item => item.id === cart.id)
-    carts[index] = cart
-
-    await this.writeFile(carts)
-
-    return cart
+    const cartUpdated = await this.getById(id)
+    return cartUpdated
   }
 
   async deleteProduct (idCart, idProduct) {
-    const cart = await this.getById(idCart)
-    const productInCart = cart.products.find(item => item.id === parseInt(idProduct) || null)
+    await this.getById(idCart)
 
-    if (!productInCart) {
-      throw error('The product does not exist in the cart', 400)
-    }
+    await deleteProduct(idCart, idProduct)
+    const cartUpdated = await this.getById(idCart, idProduct)
 
-    const index = cart.products.findIndex(item => item.id === parseInt(idProduct))
-    cart.products.splice(index, 1)
-
-    const carts = await this.list()
-    const indexCart = carts.findIndex(item => item.id === parseInt(idCart))
-
-    carts[indexCart] = cart
-
-    await this.writeFile(carts)
-
-    return cart
+    return cartUpdated
   }
 
   async delete (id) {
     const cart = await this.getById(id)
-    const list = await this.list()
-
-    const index = list.findIndex(item => item.id === cart.id)
-    list.splice(index, 1)
-
-    await this.writeFile(list)
-
+    await deleteById(cart.id)
     return id
   }
 }

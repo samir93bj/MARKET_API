@@ -14,12 +14,16 @@ class CartDaoRepository {
     return this.dao.getById(id)
   }
 
-  async save (data) {
-    return this.dao.save(data)
+  async save () {
+    return this.dao.save()
   }
 
-  async update (id, data) {
-    return this.dao.update(id, data)
+  async addProduct (id, data) {
+    return this.dao.addProduct(id, data)
+  }
+
+  async deleteProduct (idCart, idProduct) {
+    return this.dao.deleteProduct(idCart, idProduct)
   }
 
   async delete (id) {

@@ -1,11 +1,12 @@
-import error from '../utils/error.js'
 import fs from 'fs'
 import moment from 'moment'
-import ProductService from '../service/producto.service.js'
-const productService = new ProductService('productos.json')
+import error from '../../../utils/error.js'
+import ProductRepository from '../../repository/product.repository.js'
+
+const productRepository = new ProductRepository()
 
 class CartDaoMemory {
-  constructor (nameFile) {
+  constructor (nameFile = 'carts.json') {
     this.nameFile = nameFile
   }
 
@@ -63,7 +64,7 @@ class CartDaoMemory {
     const cart = await this.getById(id)
 
     const idProducto = data.id
-    const product = await productService.getById(idProducto)
+    const product = await productRepository.getById(idProducto)
 
     if (product.stock > 0) {
       cart.products.push(product)
@@ -101,10 +102,9 @@ class CartDaoMemory {
   }
 
   async delete (id) {
-    const cart = await this.getById(id)
     const list = await this.list()
 
-    const index = list.findIndex(item => item.id === cart.id)
+    const index = list.findIndex(item => item.id === id)
     list.splice(index, 1)
 
     await this.writeFile(list)
