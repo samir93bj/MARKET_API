@@ -8,7 +8,7 @@ class CartDaoMongo {
 
   async list () {
     try {
-      const Carts = await this.CartModel.find()
+      const Carts = await this.CartModel.find().populate({ path: 'products' })
       return Carts
     } catch (e) {
       throw error('Internal server error', 500)
@@ -17,7 +17,7 @@ class CartDaoMongo {
 
   async getById (id) {
     try {
-      const item = await this.CartModel.findById(id)
+      const item = await this.CartModel.findById(id).populate({ path: 'products' })
       return item
     } catch (err) {
       console.log(err)
@@ -35,6 +35,12 @@ class CartDaoMongo {
       console.log(err)
       throw error('Internal Server Error', 500)
     }
+  }
+
+  async addProduct (cart, product) {
+    cart.products.push(product._id)
+
+    cart.save()
   }
 
   async update (id, item) {

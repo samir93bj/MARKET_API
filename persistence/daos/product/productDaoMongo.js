@@ -10,7 +10,8 @@ class ProductDaoMongo {
     try {
       const products = await this.ProductModel.find()
       return products
-    } catch (e) {
+    } catch (error) {
+      console.log(error)
       throw error('Internal server error', 500)
     }
   }

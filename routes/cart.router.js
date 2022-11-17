@@ -45,7 +45,7 @@ router.post('/:id/productos',
   async (req, res, next) => {
     try {
       const id = req.params.id
-      const data = req.body
+      const data = req.body.id
       const cart = await service.addProduct(id, data)
 
       return success(req, res, 201, cart)

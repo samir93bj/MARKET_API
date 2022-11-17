@@ -1,8 +1,5 @@
 import { save, list, addProduct, getById, deleteById, deleteProduct } from '../business/cart.service.js'
-import ProductService from './producto.service.js'
 import error from '../utils/error.js'
-
-const productService = new ProductService()
 
 class CartService {
   async list () {
@@ -26,18 +23,8 @@ class CartService {
     return newCart
   }
 
-  async addProduct (id, data) {
-    const cart = await this.getById(id)
-
-    const idProducto = data.id
-    const product = await productService.getById(idProducto)
-
-    if (product.stock > 0) {
-      await addProduct(cart.id, product)
-    } else {
-      throw error('insufficient stock', 400)
-    }
-    const cartUpdated = await this.getById(id)
+  async addProduct (id, idProduct) {
+    const cartUpdated = await addProduct(id, idProduct)
     return cartUpdated
   }
 

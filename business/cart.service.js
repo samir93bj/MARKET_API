@@ -1,4 +1,7 @@
 import CartDaoRepository from '../persistence/repository/cart.repository.js'
+import { getById as productGetById } from './product.service.js'
+import error from '../utils/error.js'
+
 const cartDaoRepository = new CartDaoRepository()
 
 const list = async () => {
@@ -8,6 +11,11 @@ const list = async () => {
 
 const getById = async (id) => {
   const cart = await cartDaoRepository.getById(id)
+
+  if (!cart) {
+    throw error('Cart inexistent', 400)
+  }
+
   return cart
 }
 
@@ -16,9 +24,14 @@ const save = async () => {
   return cart
 }
 
-const addProduct = async (id, data) => {
-  const cart = await cartDaoRepository.addProduct(id, data)
-  return cart
+const addProduct = async (id, idProduct) => {
+  const cart = await getById(id)
+  const product = await productGetById(idProduct)
+
+  await cartDaoRepository.addProduct(cart, product)
+
+  const cartUpdated = await getById(id)
+  return cartUpdated
 }
 
 const deleteProduct = async (idCart, idProduct) => {
