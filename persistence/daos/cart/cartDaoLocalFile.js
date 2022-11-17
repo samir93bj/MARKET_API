@@ -1,9 +1,6 @@
 import fs from 'fs'
 import moment from 'moment'
 import error from '../../../utils/error.js'
-import ProductRepository from '../../repository/product.repository.js'
-
-const productRepository = new ProductRepository()
 
 class CartDaoMemory {
   constructor (nameFile = 'carts.json') {
@@ -59,12 +56,8 @@ class CartDaoMemory {
     return newCart
   }
 
-  async addProduct (id, data) {
+  async addProduct (cart, product) {
     const carts = await this.list()
-    const cart = await this.getById(id)
-
-    const idProducto = data.id
-    const product = await productRepository.getById(idProducto)
 
     if (product.stock > 0) {
       cart.products.push(product)
