@@ -5,7 +5,7 @@ const config = {
   enviorment: process.env.ENVIORMENT || 'test',
   port: process.env.PORT || 8080,
   admin: true,
-  dataBase: 'localStorage',
+  dataBase: 'mongoDB',
   mariadb_service: {
     host: process.env.HOST || '127.0.0.1',
     port: process.env.PORT || 3306,

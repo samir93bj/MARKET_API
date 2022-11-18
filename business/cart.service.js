@@ -1,12 +1,16 @@
 import CartDaoRepository from '../persistence/repository/cart.repository.js'
 import { getById as productGetById } from './product.service.js'
 import error from '../utils/error.js'
+import ProductRepository from '../persistence/repository/product.repository.js'
+import { selectCartDto, selectCartsDto } from '../persistence/dto/cart.dto.js'
 
+const productRepository = new ProductRepository()
 const cartDaoRepository = new CartDaoRepository()
 
 const list = async () => {
   const carts = await cartDaoRepository.list()
-  return carts
+
+  return selectCartsDto(carts)
 }
 
 const getById = async (id) => {
@@ -16,17 +20,20 @@ const getById = async (id) => {
     throw error('Cart inexistent', 400)
   }
 
-  return cart
+  return selectCartDto(cart)
 }
 
 const save = async () => {
   const cart = await cartDaoRepository.save()
-  return cart
+  return selectCartDto(cart)
 }
 
 const addProduct = async (id, idProduct) => {
-  const cart = await getById(id)
-  const product = await productGetById(idProduct)
+  await getById(id)
+  await productGetById(idProduct)
+
+  const product = await productRepository.getById(idProduct)
+  const cart = await cartDaoRepository.getById(id)
 
   await cartDaoRepository.addProduct(cart, product)
 
@@ -37,10 +44,11 @@ const addProduct = async (id, idProduct) => {
 const deleteProduct = async (idCart, idProduct) => {
   await getById(idCart)
   await productGetById(idProduct)
-  await cartDaoRepository.deleteProduct(idCart, idProduct)
 
-  const cart = await getById(idCart)
-  return cart
+  const product = await productRepository.getById(idProduct)
+  await cartDaoRepository.deleteProduct(idCart, product)
+
+  return await getById(idCart)
 }
 
 const deleteById = async (id) => {

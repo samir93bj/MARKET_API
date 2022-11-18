@@ -1,4 +1,4 @@
-import { productsDtoForMongo, selectProductDto } from '../persistence/dto/productDto.js'
+import { productsDtoForMongo, selectProductDto } from '../persistence/dto/product.dto.js'
 import ProductRepository from '../persistence/repository/product.repository.js'
 import error from '../utils/error.js'
 const productRepository = new ProductRepository()

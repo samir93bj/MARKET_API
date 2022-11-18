@@ -1,5 +1,6 @@
 import Cart from '../../../db/Mongo/models/cart.model.js'
 import error from '../../../utils/error.js'
+import { createCartDto } from '../../dto/cart.dto.js'
 
 class CartDaoMongo {
   constructor () {
@@ -17,7 +18,7 @@ class CartDaoMongo {
 
   async getById (id) {
     try {
-      const item = await this.CartModel.findById(id).populate({ path: 'products' })
+      const item = await this.CartModel.findOne({ externalID: id }).populate({ path: 'products' })
       return item
     } catch (err) {
       console.log(err)
@@ -25,12 +26,15 @@ class CartDaoMongo {
     }
   }
 
-  async save (newItem) {
+  async save () {
     try {
-      const item = new this.CartModel(newItem)
-      const itemSave = await this.CartModel.create(item)
+      const cart = {
+        id: await this.generateId()
+      }
+      const newCart = createCartDto(cart)
 
-      return itemSave
+      const item = new this.CartModel(newCart)
+      return await this.CartModel.create(item)
     } catch (err) {
       console.log(err)
       throw error('Internal Server Error', 500)
@@ -38,14 +42,14 @@ class CartDaoMongo {
   }
 
   async addProduct (cart, product) {
-    cart.products.push(product._id)
+    cart.products.push(product.id)
 
     cart.save()
   }
 
-  async deleteProduct (idCart, idProduct) {
+  async deleteProduct (idCart, product) {
     try {
-      const cart = await Cart.updateOne({ _id: idCart }, { $pull: { products: idProduct } })
+      const cart = await this.CartModel.updateOne({ externalID: idCart }, { $pull: { products: product._id } }, { multi: false, new: true })
       return cart
     } catch (err) {
       console.log(err)
@@ -55,13 +59,26 @@ class CartDaoMongo {
 
   async delete (id) {
     try {
-      await this.CartModel.findByIdAndDelete(id)
+      await this.CartModel.findOneAndDelete({ externalID: id })
 
       return id
     } catch (err) {
       console.log(err)
       throw error('Internal Server Error', 500)
     }
+  }
+
+  async generateId () {
+    const cartLatest = await this.CartModel.find({}).sort({ $natural: -1 }).limit(1)
+
+    let id
+    if (cartLatest.length === 0) {
+      id = 1
+    } else {
+      id = cartLatest[0].externalID + 1
+    }
+
+    return id
   }
 }
 

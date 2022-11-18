@@ -1,6 +1,6 @@
 import Product from '../../../db/Mongo/models/product.model.js'
 import error from '../../../utils/error.js'
-import { createProductDto, updateProductDto } from '../../dto/productDto.js'
+import { createProductDto, updateProductDto } from '../../dto/product.dto.js'
 
 class ProductDaoMongo {
   constructor () {

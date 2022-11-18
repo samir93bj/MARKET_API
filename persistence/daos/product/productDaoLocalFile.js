@@ -1,6 +1,6 @@
 import fs from 'fs'
 import error from '../../../utils/error.js'
-import { createProductDto } from '../../dto/productDto.js'
+import { createProductDto } from '../../dto/product.dto.js'
 
 class ProductMemoryDao {
   constructor (nameFile = 'productos.json') {
