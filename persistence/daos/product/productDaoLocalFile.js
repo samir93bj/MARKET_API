@@ -1,6 +1,6 @@
 import fs from 'fs'
-import moment from 'moment'
 import error from '../../../utils/error.js'
+import { createProductDto } from '../../dto/productDto.js'
 
 class ProductMemoryDao {
   constructor (nameFile = 'productos.json') {
@@ -24,7 +24,7 @@ class ProductMemoryDao {
 
   async getById (id) {
     const data = await this.readFile()
-    const product = data.find(item => item.id === parseInt(id)) || null
+    const product = data.find(item => item.externalID === parseInt(id)) || null
 
     if (!product) {
       throw error('Product not exist', 400)
@@ -40,7 +40,7 @@ class ProductMemoryDao {
       product.id = 1
     } else {
       const lastProduct = data[data.length - 1]
-      const id = lastProduct.id + 1
+      const id = lastProduct.externalID + 1
 
       product.id = id
     }
@@ -49,16 +49,7 @@ class ProductMemoryDao {
       product.stock = 0
     }
 
-    const newProduc = {
-      id: product.id,
-      timestamp: moment().format('DD/MM/YYYY HH:mm:ss A'),
-      name: product.name,
-      description: product.description,
-      code: product.code,
-      image: product.image,
-      price: product.price,
-      stock: product.stock
-    }
+    const newProduc = createProductDto(product)
 
     data.push(newProduc)
 
@@ -72,7 +63,7 @@ class ProductMemoryDao {
     const list = await this.list()
 
     const upProduct = {
-      id: product.id,
+      id: product.externalID,
       timestamp: product.timestamp
     }
 
@@ -83,8 +74,12 @@ class ProductMemoryDao {
     upProduct.price = (!data.price) ? product.price : data.price
     upProduct.stock = (!data.stock) ? product.stock : data.stock
 
-    const index = list.findIndex(item => item.id === parseInt(id))
-    list[index] = upProduct
+    const updatedProduct = createProductDto(upProduct)
+
+    updatedProduct.timestamp = product.timestamp
+
+    const index = list.findIndex(item => item.externalID === parseInt(id))
+    list[index] = updatedProduct
 
     await this.writeFile(list)
 
@@ -95,7 +90,7 @@ class ProductMemoryDao {
     const product = await this.getById(id)
     const list = await this.list()
 
-    const index = list.findIndex(item => item.id === product.id)
+    const index = list.findIndex(item => item.externalID === product.id)
     list.splice(index, 1)
 
     await this.writeFile(list)
