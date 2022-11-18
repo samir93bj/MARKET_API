@@ -43,10 +43,10 @@ class CartDaoMongo {
     cart.save()
   }
 
-  async update (id, item) {
+  async deleteProduct (idCart, idProduct) {
     try {
-      const newCart = await this.CartModel.findByIdAndUpdate(id, item)
-      return newCart
+      const cart = await Cart.updateOne({ _id: idCart }, { $pull: { products: idProduct } })
+      return cart
     } catch (err) {
       console.log(err)
       throw error('Internal Server Error', 500)

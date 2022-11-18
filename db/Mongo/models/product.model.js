@@ -1,6 +1,8 @@
 import mongoose, { Schema } from 'mongoose'
 
 const ProductSchema = new Schema({
+  externalID: { type: Number, required: true },
+  timestamp: { type: String, required: true },
   name: { type: String, required: true },
   description: { type: String, required: true },
   code: { type: String, required: true },
@@ -11,6 +13,7 @@ const ProductSchema = new Schema({
 {
   toJSON: {
     transform (doc, ret) {
+      delete ret._id
       delete ret.__v
       delete ret.updatedAt
     }

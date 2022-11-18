@@ -35,7 +35,11 @@ const addProduct = async (id, idProduct) => {
 }
 
 const deleteProduct = async (idCart, idProduct) => {
-  const cart = await cartDaoRepository.deleteProduct(idCart, idProduct)
+  await getById(idCart)
+  await productGetById(idProduct)
+  await cartDaoRepository.deleteProduct(idCart, idProduct)
+
+  const cart = await getById(idCart)
   return cart
 }
 

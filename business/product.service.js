@@ -1,10 +1,11 @@
+import { productsDtoForMongo, selectProductDto } from '../persistence/dto/productDto.js'
 import ProductRepository from '../persistence/repository/product.repository.js'
 import error from '../utils/error.js'
 const productRepository = new ProductRepository()
 
 const list = async () => {
   const products = await productRepository.list()
-  return products
+  return productsDtoForMongo(products)
 }
 
 const getById = async (id) => {
@@ -14,24 +15,22 @@ const getById = async (id) => {
     throw error('Product not found', 400)
   }
 
-  return product
+  return selectProductDto(product)
 }
 
 const save = async (data) => {
   const product = await productRepository.save(data)
-  return product
+  return selectProductDto(product)
 }
 
 const update = async (id, data) => {
   await productRepository.update(id, data)
-  const productUpdated = await getById(id)
-
-  return productUpdated
+  return await getById(id)
 }
 
 const deleteById = async (id) => {
   const product = await getById(id)
-  await productRepository.delete(product.id)
+  await productRepository.delete(product.externalID)
 
   return id
 }

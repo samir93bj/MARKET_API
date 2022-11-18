@@ -13,16 +13,7 @@ class ProductService {
   }
 
   async save (product) {
-    const newProduc = {
-      name: product.name,
-      description: product.description,
-      code: product.code,
-      image: product.image,
-      price: product.price,
-      stock: product.stock
-    }
-
-    const producSaved = await save(newProduc)
+    const producSaved = await save(product)
 
     return producSaved
   }
