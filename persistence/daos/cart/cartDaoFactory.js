@@ -11,11 +11,6 @@ switch (dataBaseContext) {
     dao = new CartDaoMongo()
     Connection()
     break
-  case 'firebase' :
-    // eslint-disable-next-line no-case-declarations
-    const { CartDaoFirebase } = await import('./cartDaoFirestore.js')
-    dao = new CartDaoFirebase()
-    break
   case 'localStorage' :
     // eslint-disable-next-line no-case-declarations
     const { CartDaoMemory } = await import('./cartDaoLocalFile.js')

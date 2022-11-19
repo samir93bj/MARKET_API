@@ -1,7 +1,5 @@
-class ProductDaoFirestore {
-  constructor () {
-    this.id = ''
-  }
+class ProductDaoFirebase {
+
 }
 
-export { ProductDaoFirestore }
+export { ProductDaoFirebase }

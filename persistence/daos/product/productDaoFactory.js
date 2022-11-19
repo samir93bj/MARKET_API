@@ -9,11 +9,6 @@ switch (dataBaseContext) {
     const { ProductDaoMongo } = await import('./productDaoMongo.js')
     dao = new ProductDaoMongo()
     break
-  case 'firebase' :
-    // eslint-disable-next-line no-case-declarations
-    const { ProductDaoFirestore } = await import('./productDatoFirestore.js')
-    dao = new ProductDaoFirestore()
-    break
   case 'localStorage' :
     // eslint-disable-next-line no-case-declarations
     const { ProductMemoryDao } = await import('./productDaoLocalFile.js')

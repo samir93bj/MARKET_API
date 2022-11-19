@@ -15,23 +15,23 @@ const validationCreate = [
 ]
 
 const updateProduct = [
-  param('id', 'Id no es valido').isInt(),
-  check('name', 'Name is required').escape(),
-  check('description', 'Description is required').escape(),
-  check('code', 'Code is required').escape(),
-  check('image', 'Image is URL').isURL(),
+  param('id', 'Id not is valid').isInt(),
+  check('name', 'Name is required').escape().optional(),
+  check('description', 'Description is required').escape().optional(),
+  check('code', 'Code is required').escape().optional(),
+  check('image', 'Image is URL').isURL().optional(),
   check('price', 'Price value numeric between 10 and 150000').not().isString(),
   check('stock', 'Stock value numeric between 10 and 10000').not().isString(),
   validarCampos
 ]
 
 const deleteProduct = [
-  param('id', 'Id no es valido').isInt(),
+  param('id', 'Id not is valid').isInt(),
   validarCampos
 ]
 
 const getProduct = [
-  param('id', 'Id no es valido').isInt(),
+  param('id', 'Id not is valid').isInt(),
   validarCampos
 ]
 
