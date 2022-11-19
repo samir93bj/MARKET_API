@@ -68,15 +68,15 @@ Endpoint list for the services provided
 
 ## PRODUCTS
 
-### GET `api/productos`
+#### GET `api/productos`
 
-### GET `api/productos/{id}`
+#### GET `api/productos/{id}`
 **Parameters**
 |          Name | Required |  Type   | Description 
 | -------------:|:--------:|:-------:| --------------------------------|
 |         `id`  | required | number  |  id of the searched product
 
-### POST `api/productos`
+#### POST `api/productos`
 **Parameters in body**
 |          Name | Required |  Type   | Description 
 | -------------:|:--------:|:-------:| --------------------------------|
@@ -87,14 +87,14 @@ Endpoint list for the services provided
 | `price`       | required | number  |  price the product
 | `stock`       | required | number  |  stock the product
 
-### UP `api/productos/{id}`
+#### UP `api/productos/{id}`
 **Parameters**
 |          Name | Required |  Type   | Description 
 | -------------:|:--------:|:-------:| --------------------------------|
 |         `id`  | required | number  |  id of the updated product
 |     `{data}`  | optional |         |  data for update product
 
-### DELETE `api/productos/{id}`
+#### DELETE `api/productos/{id}`
 **Parameters**
 |          Name | Required |  Type   | Description 
 | -------------:|:--------:|:-------:| --------------------------------|
@@ -104,25 +104,25 @@ Endpoint list for the services provided
 
 ## CARTS
 
-### GET `api/carrito`
+#### GET `api/carrito`
 
-### GET `api/carrito/{id}`
+#### GET `api/carrito/{id}`
 **Parameters**
 |          Name | Required |  Type   | Description 
 | -------------:|:--------:|:-------:| --------------------------------|
 |         `id`  | required | number  |  id of the cart search
 
-### POST `api/carrito/{id}`
+#### POST `api/carrito/{id}`
 
 
-### DELETE `api/carrito/{id}`
+#### DELETE `api/carrito/{id}`
 **Parameters**
 |          Name | Required |  Type   | Description 
 | -------------:|:--------:|:-------:| --------------------------------|
 |         `id`  | required | number  |  id of the cart delete
 
 
-### POST `api/carrito/{id}/productos`
+#### POST `api/carrito/{id}/productos`
 **Parameters**
 |          Name | Required |  Type   | Description 
 | -------------:|:--------:|:-------:| --------------------------------|
@@ -130,7 +130,7 @@ Endpoint list for the services provided
 |**body** `id`  | required | number  |  ID of the product
 
 
-### DELETE `api/carrito/{id}/productos/{id_product}`
+#### DELETE `api/carrito/{id}/productos/{id_product}`
 **Parameters**
 |          Name | Required |  Type   | Description 
 | -------------:|:--------:|:-------:| --------------------------------|
