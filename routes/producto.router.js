@@ -1,8 +1,8 @@
 import express from 'express'
 import { success } from '../networks/responses.js'
-import { validateDate } from '../schema/product.schema.js'
 import { isAdminRole } from '../middleware/auth.handler.js'
 import ProductService from '../service/producto.service.js'
+import { validationCreate, updateProduct, deleteProduct, getProduct } from '../middleware/validators/product.validators.js'
 
 const service = new ProductService()
 const router = express.Router()
@@ -18,6 +18,7 @@ router.get('/',
   })
 
 router.get('/:id',
+  getProduct,
   async (req, res, next) => {
     try {
       const { id } = req.params
@@ -31,7 +32,7 @@ router.get('/:id',
 
 router.post('/',
   isAdminRole,
-  validateDate,
+  validationCreate,
   async (req, res, next) => {
     try {
       const data = req.body
@@ -45,6 +46,7 @@ router.post('/',
 
 router.delete('/:id',
   isAdminRole,
+  deleteProduct,
   async (req, res, next) => {
     try {
       const id = req.params.id
@@ -57,6 +59,7 @@ router.delete('/:id',
 
 router.put('/:id',
   isAdminRole,
+  updateProduct,
   async (req, res, next) => {
     try {
       const id = req.params.id

@@ -1,5 +1,4 @@
 import fs from 'fs'
-import error from '../../../utils/error.js'
 import { createProductDto } from '../../dto/product.dto.js'
 
 class ProductMemoryDao {
@@ -25,10 +24,6 @@ class ProductMemoryDao {
   async getById (id) {
     const data = await this.readFile()
     const product = data.find(item => item.externalID === parseInt(id)) || null
-
-    if (!product) {
-      throw error('Product not exist', 400)
-    }
 
     return product
   }
@@ -88,9 +83,10 @@ class ProductMemoryDao {
 
   async delete (id) {
     const product = await this.getById(id)
+    console.log('ID :', id)
     const list = await this.list()
 
-    const index = list.findIndex(item => item.externalID === product.id)
+    const index = list.findIndex(item => item.externalID === product.externalID)
     list.splice(index, 1)
 
     await this.writeFile(list)

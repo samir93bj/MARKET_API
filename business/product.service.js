@@ -30,7 +30,7 @@ const update = async (id, data) => {
 
 const deleteById = async (id) => {
   const product = await getById(id)
-  await productRepository.delete(product.externalID)
+  await productRepository.delete(product.id)
 
   return id
 }
