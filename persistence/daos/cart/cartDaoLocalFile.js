@@ -67,17 +67,17 @@ class CartDaoMemory {
 
   async deleteProduct (idCart, idProduct) {
     const cart = await this.getById(idCart)
-    const productInCart = cart.products.find(item => item.id === parseInt(idProduct) || null)
+    const productInCart = cart.products.find(item => item.externalID === parseInt(idProduct.externalID) || null)
 
     if (!productInCart) {
       throw error('The product does not exist in the cart', 400)
     }
 
-    const index = cart.products.findIndex(item => item.id === parseInt(idProduct))
+    const index = cart.products.findIndex(item => item.externalID === parseInt(idProduct.externalID))
     cart.products.splice(index, 1)
 
     const carts = await this.list()
-    const indexCart = carts.findIndex(item => item.id === parseInt(idCart))
+    const indexCart = carts.findIndex(item => item.externalID === parseInt(idCart))
 
     carts[indexCart] = cart
 
@@ -89,7 +89,7 @@ class CartDaoMemory {
   async delete (id) {
     const list = await this.list()
 
-    const index = list.findIndex(item => item.id === id)
+    const index = list.findIndex(item => item.externalID === id)
     list.splice(index, 1)
 
     await this.writeFile(list)
