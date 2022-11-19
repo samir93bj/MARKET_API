@@ -1,7 +1,7 @@
 import express from 'express'
 import { success } from '../networks/responses.js'
 import CartService from '../service/cart.service.js'
-import { validateData } from '../schema/carts.schema.js'
+import { validationAddProduct, validationGetCart, validationDeleteCart, validationDeleteProductCart } from '../middleware/validators/cart.validators.js'
 
 const service = new CartService('carts.json')
 const router = express.Router()
@@ -18,6 +18,7 @@ router.get('/',
   })
 
 router.get('/:id',
+  validationGetCart,
   async (req, res, next) => {
     try {
       const id = req.params.id
@@ -40,11 +41,11 @@ router.post('/',
     }
   })
 
-router.post('/:id/productos',
-  validateData,
+router.post('/:idCart/productos',
+  validationAddProduct,
   async (req, res, next) => {
     try {
-      const id = req.params.id
+      const id = req.params.idCart
       const data = req.body.id
       const cart = await service.addProduct(id, data)
 
@@ -55,6 +56,7 @@ router.post('/:id/productos',
   })
 
 router.delete('/:id',
+  validationDeleteCart,
   async (req, res, next) => {
     try {
       const id = req.params.id
@@ -67,6 +69,7 @@ router.delete('/:id',
   })
 
 router.delete('/:id/productos/:id_prod',
+  validationDeleteProductCart,
   async (req, res, next) => {
     try {
       const id = req.params.id
