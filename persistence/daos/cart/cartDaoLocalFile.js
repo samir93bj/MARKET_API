@@ -1,6 +1,6 @@
 import fs from 'fs'
-import moment from 'moment'
 import error from '../../../utils/error.js'
+import { createCartDto } from '../../dto/cart.dto.js'
 
 class CartDaoMemory {
   constructor (nameFile = 'carts.json') {
@@ -24,31 +24,23 @@ class CartDaoMemory {
 
   async getById (id) {
     const data = await this.readFile()
-    const cart = data.find(item => item.id === parseInt(id)) || null
-
-    if (!cart) {
-      throw error('Cart not exist', 400)
-    }
+    const cart = data.find(item => item.externalID === parseInt(id)) || null
 
     return cart
   }
 
   async save () {
-    const newCart = {}
+    let newCart = {}
     const data = await this.readFile()
 
     if (data.length === 0) {
       newCart.id = 1
     } else {
       const lastCart = data[data.length - 1]
-      const id = lastCart.id + 1
-
-      newCart.id = id
+      newCart.id = lastCart.externalID + 1
     }
 
-    newCart.timestamp = moment().format('DD/MM/YYYY HH:mm:ss A')
-    newCart.products = []
-
+    newCart = createCartDto(newCart)
     data.push(newCart)
 
     await this.writeFile(data)
@@ -65,7 +57,7 @@ class CartDaoMemory {
       throw error('insufficient stock', 400)
     }
 
-    const index = carts.findIndex(item => item.id === cart.id)
+    const index = carts.findIndex(item => item.externalID === cart.externalID)
     carts[index] = cart
 
     await this.writeFile(carts)
